@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Strona</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+        <script>
+            function validate() {
+                var fName = document.getElementById("fName").value;
+                var lName = document.getElementById("lName").value;
+                var date = document.getElementById("date").value;
+                var sex = document.getElementById("sexM").checked ? "M" : document.getElementById("sexF").checked ? "K" : undefined;
+                var color = document.getElementById("color").value;
+                if(fName == "") {
+                    alert("Imie nie może być puste");
+                } else if(lName == "") {
+                    alert("Nazwisko nie może być puste");
+                } else if(fName == "") {
+                    alert("Imie nie może być puste");
+                } else if(date == "") {
+                    alert("Nie podałeś daty urodzin");
+                } else if(sex == undefined) {
+                    alert("Nie wybrałeś płci");
+                } else {
+                    alert("Formularz został pomyślnie wysłany");
+                    cont = document.getElementById("container");
+                    cont.innerHTML = "<h1>Dane formularza</h1>";
+                    cont.innerHTML += "<p>Imie: " + fName + "</p>";
+                    cont.innerHTML += "<p>Nazwisko: " + lName + "</p>";
+                    cont.innerHTML += "<p>Data urodzenia: " + date + "</p>";
+                    cont.innerHTML += "<p>Płeć: " + sex + "</p>";
+                    cont.innerHTML += "<p>Kolor w drużynie: " + color + "</p>";
+                    cont.innerHTML += "<p><a href='index.html'>Wróć do strony głównej</a></p>";
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div id="container">
+            <header>
+                <h1>Strona</h1>
+            </header>
+            <nav>
+                <a href="#about" style="margin-right: 10px">O nas</a>
+                <a href="#galery" style="margin-right: 10px">Galeria</a>
+                <a href="#join">Dołącz</a>
+            </nav>
+            <article id="about">
+                <h2>O nas</h2>
+                <p>
+                    Jesteśmy małą grupą developerów zajmującą cię tworzeniem stron internetowych.
+                    Działamy zarówno na back-endzie jak i na front-endzie.
+                    Naszym zadaniem jest zrobienie wszystkich zadań na praktyki możliwie najlepiej.
+                    Nasz zespół składa się obecnie z 1 programisty full-stackowego, ale szybko się rozwija.
+                </p>
+                <h3>Ogłoszenie!!!</h3>
+                <p>
+                    Nasza grupa poszukuje programistów specjalizujących się w tworzeniu stron internetowych.
+                    Wymagana jest znajomość języków: HTML, CSS i JavaScript.
+                    Jeśli jesteś zainteresowany dołączeniem do naszej grupy nalerzy wypełnić formularz znajdujący się pod <a href="#join">linkiem</a>
+                </p>
+            </article>
+            <section id="galery">
+                <h2>Galeria</h2>
+                <img src="images/img1.png" alt="Visual Studio">
+                <img src="images/img2.png" alt="GitHub">
+                <img src="images/img3.png" alt="Repository">
+            </section>
+            <section id="join">
+                <h2>Dołącz do grupy</h2>
+                <form action="#join">
+                    <table>
+                        <tr><td id="left">
+                            Imie:
+                        </td><td id="right">
+                            <input type="text" id="fName">
+                        </td></tr>
+                        <tr><td id="left">
+                            Nazwisko:
+                        </td><td id="right">
+                            <input type="text" id="lName">
+                        </td></tr>
+                        <tr><td id="left">
+                            Data urodzenia:
+                        </td><td id="right">
+                            <input type="date" id="date">
+                        </td></tr>
+                        <tr><td id="left">
+                            Płeć:
+                        </td><td id="right">
+                            <label><input type="radio" name="sex" id="sexM"> Mężczyzna</label><br>
+                            <label><input type="radio" name="sex" id="sexF"> Kobieta</label>
+                        </td></tr>
+                        <tr><td id="left">
+                            Kolor w drużynie:
+                        </td><td id="right">
+                            <input type="color" id="color" style="padding: 0; background-color: #0000;">
+                        </td></tr>
+                    </table><br>
+                    <input type="reset">&nbsp;&nbsp;<input type="submit" onclick="validate()">
+                </form>
+            </section>
+            <footer>
+                &copy; 2022 Wiktor Pacuk 4P
+            </footer>
+        </div>
+    </body>
+</html>
