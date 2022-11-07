@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Strona</title>
+        <title>Team Solo</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="style.css">
         <script>
@@ -19,6 +19,8 @@
                     alert("Imie nie może być puste");
                 } else if(date == "") {
                     alert("Nie podałeś daty urodzin");
+                } else if(Date.now() - Date.parse(date) < 0) {
+                    alert("Nie możegłeś urodzić się w przyszłości");
                 } else if(sex == undefined) {
                     alert("Nie wybrałeś płci");
                 } else {
@@ -38,7 +40,7 @@
     <body>
         <div id="container">
             <header>
-                <h1>Strona</h1>
+                <h1>Team Solo</h1>
             </header>
             <nav>
                 <a href="#about" style="margin-right: 10px">O nas</a>
@@ -97,7 +99,7 @@
                             <input type="color" id="color" style="padding: 0; background-color: #0000;">
                         </td></tr>
                     </table><br>
-                    <input type="reset">&nbsp;&nbsp;<input type="submit" onclick="validate()">
+                    <input type="reset" value="Wyczyść">&nbsp;&nbsp;<input type="submit" value="Dołącz" onclick="validate()">
                 </form>
             </section>
             <footer>
