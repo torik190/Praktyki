@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>Zadanie na 15.11.2022</title>
+    <style>
+        body {
+            background-color: rgb(199, 219, 226);
+        }
+
+        input {
+            margin-bottom: 10px;
+        }
+    </style>
+    <script src="script.js" language="javascript"></script>
+</head>
+<body>
+    <form>
+        <h2>Liczby z przedziału</h2>
+        Od:<br>
+        <input type="number" name="input1"><br>
+        Do:<br>
+        <input type="number" name="input2"><br>
+        <input type="button" value="Generuj" onclick="handleRange(this.form)"><br>
+        Wynik:<br>
+        <output name="result"></output>
+    </form>
+    <form>
+        <h2>Szukaj w tablicy</h2>
+        Tablica (',' rozdziela elementy):<br>
+        <input type="text" name="input1"><br>
+        Czego szukać:<br>
+        <input type="number" name="input2"><br>
+        <input type="button" value="Szukaj" onclick="handleSearch(this.form)"><br>
+        Wynik:<br>
+        <output name="result"></output>
+    </form>
+</body>
+</html>

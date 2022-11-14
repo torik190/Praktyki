@@ -1,0 +1,45 @@
+<html>
+<head>
+    <title>Zadanie na 15.11.2022</title>
+    <link rel="stylesheet" href="mystyle.css">
+    <script src="myscript.js" language="javascript"></script>
+</head>
+<body>
+    <form>
+        <h2>Kalkulator</h2>
+        <select name="mode" onchange="changeNames(this.form, value)">
+            <option value="add" selected>Dodawanie</option>
+            <option value="sub">Odejmowanie</option>
+            <option value="mul">Mnożenie</option>
+            <option value="div">Dzielenie</option>
+            <option value="mod">Reszta z dzielenia</option>
+            <option value="pow">Potęgowanie</option>
+            <option value="log">Logarytm</option>
+            <option value="fac">Silnia</option>
+        </select><br>
+        <output name="name1">Składnik:</output><br>
+        <input type="number" name="input1"><br>
+        <output name="name2">Składnik:</output><br>
+        <input type="number" name="input2"><br>
+        <input type="button" value="Oblicz" onclick="handleCalculator(this.form)"><br>
+        Wynik:<br>
+        <output name="result"></output>
+    </form>
+    <form>
+        <h2>Tester palindromów</h2>
+        Słowo:<br>
+        <input type="text" name="input"><br>
+        <input type="button" value="Testuj" onclick="handlePalindrome(this.form)"><br>
+        Wynik:<br>
+        <output name="result"></output>
+    </form>
+    <form>
+        <h2>Drugi największy/najdłuższy</h2>
+        Tablica (',' rozdziela elementy):<br>
+        <input type="text" name="input"><br>
+        <input type="button" value="Sprawdź" onclick="handleFindInArray(this.form)"><br>
+        Wynik:<br>
+        <output name="result"></output>
+    </form>
+</body>
+</html>
