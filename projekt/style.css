@@ -1,3 +1,26 @@
-img {
-    margin: 5px;
+#container {
+    width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tile {
+    width: 420px;
+    height: 460px;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    float: left;
+    background-color: #ddd;
+    border-radius: 10px;
+    text-align: center;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+.image {
+    width: 400px;
+    height: 400px;
+    margin: 10px;
+    border-radius: 10px;
 }
