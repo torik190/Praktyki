@@ -9,9 +9,11 @@
 <body>
     <!--przybliż, autor, opis, pobierz, polub-->
     <div id="container"></div>
+    <div id="showMore" onclick="showMore()">Pokaż więcej</div>
+
     <header>
         <img src="logo.png" alt="logo">
-        <input type="text" id="query"><input type="button" value="Znajdź" id="search" onclick="findImages()">
+        <input type="text" id="query"><input type="button" value="Znajdź" id="search" onclick="handleFind()">
         <!--kategoria, ilość, strony-->
     </header>
 </body>
