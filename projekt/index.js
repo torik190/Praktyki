@@ -1,3 +1,5 @@
+const accessKey = "EFJGPfM_Shem4FlBoyJucYIdGNa3cj6tBZb8_sui1cM"
+
 var images = [];
 var container;
 var query;
@@ -34,7 +36,7 @@ function showMore() {
 //-----pobieranie zdjęć-----
 
 function findImages() {
-    fetch("https://api.unsplash.com/search/photos?client_id=EFJGPfM_Shem4FlBoyJucYIdGNa3cj6tBZb8_sui1cM&query=" + query + "&per_page=" + perPage + "&page=" + page)
+    fetch("https://api.unsplash.com/search/photos?client_id=" + accessKey + "&query=" + query + "&per_page=" + perPage + "&page=" + page)
     .then(response => response.json())
     .then(data => data.results)
     .then(results => {
@@ -47,7 +49,7 @@ function findImages() {
 }
 
 function randomImages() {
-    fetch("https://api.unsplash.com/photos/random?client_id=EFJGPfM_Shem4FlBoyJucYIdGNa3cj6tBZb8_sui1cM&count=" + perPage)
+    fetch("https://api.unsplash.com/photos/random?client_id=" + accessKey + "&count=" + perPage)
     .then(response => response.json())
     .then(results => {
         if(page <= 1)
@@ -98,6 +100,7 @@ function zoomImage(id) {
     document.getElementById("zoom").style = "display: block";
     document.getElementById("zoomImg").src = data.urls.full;
     document.getElementById("zoomLike").children[0].src = isLiked(data.id) ? "icons/like.png" : "icons/unlike.png";
+    document.getElementById("zoomLike").title = isLiked(data.id) ? "Odlub" : "Polub";
     
     document.getElementById("zoomImg").onclick = (event) => {
         event.stopPropagation();
@@ -113,7 +116,7 @@ function zoomImage(id) {
     
     document.getElementById("zoomInfo").onclick = (event) => {
         event.stopPropagation();
-        console.log(id);
+        window.open("imageInfo.html?id=" + data.id + "&liked=" + isLiked(data.id), '_blank').focus();
     };
     
     document.getElementById("zoomDownload").onclick = (event) => {
