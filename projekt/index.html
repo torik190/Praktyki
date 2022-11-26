@@ -7,14 +7,22 @@
     <!--ikona, logo, nazwa-->
 </head>
 <body>
-    <!--przybliż, autor, opis, pobierz, polub-->
+    <!--pobierz, polub, autor, info, unsplash-->
     <div id="container"></div>
     <div id="showMore" onclick="showMore()">Pokaż więcej</div>
 
     <header>
-        <img src="logo.png" alt="logo">
+        <img src="logo.png" alt="logo" onclick="start()">
         <input type="text" id="query"><input type="button" value="Znajdź" id="search" onclick="handleFind()">
-        <!--kategoria, ilość, strony-->
+        <!--kategoria, ilość-->
     </header>
+    <div id="zoom" onclick="closeZoom()" style="display: none">
+        <img src="icons/logo.png" id="zoomImg">
+        <div id="zoomButtons">
+            <div class="zoomButton" title="Like"><img src="icons/unlike.png" alt="like"></div>
+            <div class="zoomButton" title="Info"><img src="icons/info.png" alt="info"></div>
+            <div class="zoomButton" title="Download"><img src="icons/download.png" alt="download"></div>
+        </div>
+    </div>
 </body>
 </html>

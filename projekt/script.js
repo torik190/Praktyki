@@ -1,5 +1,5 @@
 var container;
-var images;
+var images = [];
 var query;
 var perPage
 var page;
@@ -33,7 +33,9 @@ function findImages() {
     .then(response => response.json())
     .then(data => data.results)
     .then(results => {
-        images = results;
+        if(page <= 1)
+            images = [];
+        images = [...images, ...results];
         showImages();
     })
     .catch((error) => {console.error(error);});
@@ -43,7 +45,9 @@ function randomImages() {
     fetch("https://api.unsplash.com/photos/random?client_id=EFJGPfM_Shem4FlBoyJucYIdGNa3cj6tBZb8_sui1cM&count=" + perPage)
     .then(response => response.json())
     .then(results => {
-        images = results;
+        if(page <= 1)
+            images = [];
+        images = [...images, ...results];
         showImages();
     })
     .catch((error) => {console.error(error);});
@@ -51,8 +55,7 @@ function randomImages() {
 
 function showImages() {
     container = document.getElementById("container");
-    if(page == 1)
-        container.innerHTML = "";
+    container.innerHTML = "";
 
     for(let id in images) {
         createImage(id);
@@ -75,11 +78,21 @@ function createImage(id) {
     tile.appendChild(image);
     image.className = "image";
     image.src = data.urls.raw + "&fm=jpg&w=400&h=400&fit=crop";
-    image.alt = "alt";
+    image.alt = "image";
 
-    tile.innerHTML += "&#9825;&#10084; " + data.likes;
+    tile.innerHTML += (data.liked_by_user ? "&#10084; " : "&#9825; ") + data.likes;
 }
 
 function zoomImage(id) {
-    console.log(id);
+    data = images[id];
+    
+    document.getElementById("zoom").style = "display: block";
+    document.getElementById("zoomImg").src = data.urls.full;
+    
+    document.getElementById("zoomImg").onclick = (event) => {event.stopPropagation(); window.open(data.links.html, '_blank').focus();};
+    document.getElementById("zoomButtons").onclick = (event) => {event.stopPropagation();};
+}
+
+function closeZoom() {
+    document.getElementById("zoom").style = "display: none";
 }

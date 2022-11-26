@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: sans-serif;
     font-weight: bold;
-    color: #888;
+    color: #444;
 }
 
 header {
@@ -98,4 +98,50 @@ input:hover {
 #showMore:hover {
     background-color: #eee;
     border-color: #eee;
+}
+
+#zoom {
+    width: 100%;
+    position: fixed;
+    top: 50px;
+    bottom: 0px;
+    background-color: #000d;
+}
+
+#zoomImg {
+    display: block;
+    height: calc(100% - 50px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#zoomButtons {
+    width: 150px;
+    height: 50px;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.zoomButton {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    padding: 5px;
+    background-color: #111;
+    border-radius: 5px;
+    float: left;
+}
+
+.zoomButton:hover {
+    background-color: #000;
+}
+
+.zoomButton img {
+    width: 30px;
+    height: 30px;
+}
+
+.zoomButton:hover img {
+    filter: brightness(0.8);
 }
