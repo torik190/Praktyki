@@ -1,17 +1,20 @@
-var container;
 var images = [];
+var container;
 var query;
 var perPage
 var page;
 var fun;
 
 start();
+
 function start() {
     perPage = 10;
     page = 1;
     fun = ()=>{randomImages()};
     //fun();
 }
+
+//-----reakcja na przyciski strony głównej-----
 
 function handleFind() {
     let q = document.getElementById("query").value.trim();
@@ -27,6 +30,8 @@ function showMore() {
     page += 1;
     fun();
 }
+
+//-----pobieranie zdjęć-----
 
 function findImages() {
     fetch("https://api.unsplash.com/search/photos?client_id=EFJGPfM_Shem4FlBoyJucYIdGNa3cj6tBZb8_sui1cM&query=" + query + "&per_page=" + perPage + "&page=" + page)
@@ -52,6 +57,8 @@ function randomImages() {
     })
     .catch((error) => {console.error(error);});
 }
+
+//-----wyświetlanie zdjęć-----
 
 function showImages() {
     container = document.getElementById("container");
@@ -80,19 +87,57 @@ function createImage(id) {
     image.src = data.urls.raw + "&fm=jpg&w=400&h=400&fit=crop";
     image.alt = "image";
 
-    tile.innerHTML += (data.liked_by_user ? "&#10084; " : "&#9825; ") + data.likes;
+    tile.innerHTML += (isLiked(data.id) ? "&#10084; " : "&#9825; ") + (data.likes + isLiked(data.id));
 }
 
+//-----przybliżanie zdjęcia-----
+
 function zoomImage(id) {
-    data = images[id];
+    let data = images[id];
     
     document.getElementById("zoom").style = "display: block";
     document.getElementById("zoomImg").src = data.urls.full;
+    document.getElementById("zoomLike").children[0].src = isLiked(data.id) ? "icons/like.png" : "icons/unlike.png";
     
-    document.getElementById("zoomImg").onclick = (event) => {event.stopPropagation(); window.open(data.links.html, '_blank').focus();};
-    document.getElementById("zoomButtons").onclick = (event) => {event.stopPropagation();};
+    document.getElementById("zoomImg").onclick = (event) => {
+        event.stopPropagation();
+        window.open(data.links.html, '_blank').focus();
+    };
+    
+    document.getElementById("zoomLike").onclick = (event) => {
+        event.stopPropagation();
+        changeLike(data.id);
+        zoomImage(id);
+        showImages();
+    };
+    
+    document.getElementById("zoomInfo").onclick = (event) => {
+        event.stopPropagation();
+        console.log(id);
+    };
+    
+    document.getElementById("zoomDownload").onclick = (event) => {
+        event.stopPropagation();
+        window.open(data.links.download + "&force=true", '_blank').focus();
+    };
 }
 
 function closeZoom() {
     document.getElementById("zoom").style = "display: none";
+}
+
+//-----like/unlike-----
+
+var likedImages = [];
+
+function isLiked(id) {
+    return likedImages.includes(id);
+}
+
+function changeLike(id) {
+    if(isLiked(id)) {
+        likedImages = likedImages.filter((el) => el != id);
+    } else {
+        likedImages.push(id);
+    }
 }
