@@ -4,7 +4,8 @@ var images = [];
 var container;
 var query;
 var perPage;
-var orderBy;
+var findOrderBy;
+var userOrderBy;
 var page;
 var fun;
 
@@ -18,22 +19,35 @@ function start() {
 
     document.getElementById("query").value = "";
     perPage = 10;
-    orderBy = "relevant";
+    findOrderBy = "relevant";
+    userOrderBy = "latest";
     page = 1;
     closeZoom();
     fun = ()=>{randomImages()};
     //fun();
 }
 
+function setOrderBy(type) {
+    document.getElementById("find_order_by").parentElement.style = "display: none";
+    document.getElementById("user_order_by").parentElement.style = "display: none";
+    if(type == "find")
+        document.getElementById("find_order_by").parentElement.style = "display: block";
+    if(type == "user")
+        document.getElementById("user_order_by").parentElement.style = "display: block";
+
+}
+
 //-----reakcja na przyciski strony głównej-----
 
 function handleFind() {
+    closeZoom();
+    closeUser();
+
     let q = document.getElementById("query").value.trim();
     if(q == "")
         return;
     query = q;
     page = 1;
-    closeZoom();
     fun = ()=>{findImages()};
     fun();
 }
@@ -45,7 +59,8 @@ function showMore() {
 
 function settingsChanged() {
     perPage = document.getElementById("per_page").value;
-    orderBy = document.getElementById("order_by").value;
+    findOrderBy = document.getElementById("find_order_by").value;
+    userOrderBy = document.getElementById("user_order_by").value;
     page = 1;
     fun();
 }
@@ -53,8 +68,8 @@ function settingsChanged() {
 //-----pobieranie zdjęć-----
 
 function findImages() {
-    document.getElementById("order_by").parentElement.style = "display: block";
-    fetch("https://api.unsplash.com/search/photos?client_id=" + accessKey + "&query=" + query + "&per_page=" + perPage + "&page=" + page + "&order_by=" + orderBy)
+    setOrderBy("find");
+    fetch("https://api.unsplash.com/search/photos?client_id=" + accessKey + "&query=" + query + "&per_page=" + perPage + "&page=" + page + "&order_by=" + findOrderBy)
     .then(response => response.json())
     .then(data => data.results)
     .then(results => {
@@ -67,8 +82,34 @@ function findImages() {
 }
 
 function randomImages() {
-    document.getElementById("order_by").parentElement.style = "display: none";
+    setOrderBy("none");
     fetch("https://api.unsplash.com/photos/random?client_id=" + accessKey + "&count=" + perPage)
+    .then(response => response.json())
+    .then(results => {
+        if(page <= 1)
+            images = [];
+        images = [...images, ...results];
+        showImages();
+    })
+    .catch(error => {console.error(error);});
+}
+
+function userImages() {
+    setOrderBy("user");
+    fetch("https://api.unsplash.com/users/" + query + "/photos?client_id=" + accessKey + "&per_page=" + perPage + "&page=" + page + "&order_by=" + userOrderBy)
+    .then(response => response.json())
+    .then(results => {
+        if(page <= 1)
+            images = [];
+        images = [...images, ...results];
+        showImages();
+    })
+    .catch(error => {console.error(error);});
+}
+
+function userLikedImages() {
+    setOrderBy("user");
+    fetch("https://api.unsplash.com/users/" + query + "/likes?client_id=" + accessKey + "&per_page=" + perPage + "&page=" + page + "&order_by=" + userOrderBy)
     .then(response => response.json())
     .then(results => {
         if(page <= 1)
@@ -91,13 +132,13 @@ function showImages() {
 }
 
 function createImage(id) {
-    data = images[id];
+    let data = images[id];
 
     let tile = document.createElement("div");
     container.appendChild(tile);
     tile.className = "imageTile";
     tile.id = id;
-    tile.onclick = () => {zoomImage(id)};
+    tile.onclick = () => {zoomImage(data)};
     tile.title = "by " + data.user.name
     if(data.description != null)
         tile.title += "\n\n" + data.description;
@@ -113,9 +154,7 @@ function createImage(id) {
 
 //-----przybliżanie zdjęcia-----
 
-function zoomImage(id) {
-    let data = images[id];
-    
+function zoomImage(data) {
     document.getElementById("zoom").style = "display: block";
     document.getElementById("zoomImg").src = data.urls.full;
     document.getElementById("zoomLike").children[0].src = isLiked(data.id) ? "icons/like.png" : "icons/unlike.png";
@@ -163,6 +202,26 @@ function zoomUser(data) {
     
     document.getElementById("userDiv").onclick = event => {
         event.stopPropagation();
+    };
+    
+    document.getElementById("userPhotos").onclick = event => {
+        event.stopPropagation();
+        query = data.username;
+        page = 1;
+        fun = ()=>{userImages()};
+        fun();
+
+        closeUser();
+    };
+    
+    document.getElementById("userLikedPhotos").onclick = event => {
+        event.stopPropagation();
+        query = data.username;
+        page = 1;
+        fun = ()=>{userLikedImages()};
+        fun();
+
+        closeUser();
     };
     
     document.getElementById("userInfo").onclick = event => {

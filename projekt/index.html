@@ -12,9 +12,17 @@
     <div id="settings">
         <label style="display: none;">
             Sortuj według: 
-            <select id="order_by" onchange="settingsChanged()">
-                <option value="relevant">Trafność</option>
-                <option value="latest">Data opublikowania</option>
+            <select id="find_order_by" onchange="settingsChanged()">
+                <option value="relevant">Najtrafniejsze</option>
+                <option value="latest">Najnowsze</option>
+            </select>
+        </label>
+        <label style="display: none;">
+            Sortuj według: 
+            <select id="user_order_by" onchange="settingsChanged()">
+                <option value="latest">Najnowsze</option>
+                <option value="oldest">Najstarsze</option>
+                <option value="popular">Najpopularniejsze</option>
             </select>
         </label>
         <label>
