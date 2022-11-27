@@ -10,7 +10,6 @@ fetch("https://api.unsplash.com/photos/" + id + "?client_id=" + accessKey)
 .catch((error) => {console.error(error);});
 
 function showData(data) {
-    console.log(data);
     putIntoTable("id", data.id);
     putIntoTable("created", formatDate(data.created_at));
     putIntoTable("updated", formatDate(data.updated_at));
@@ -33,7 +32,7 @@ function showData(data) {
     putIntoTable("exposure_time", data.exif.exposure_time, " s");
     
     putIntoTable("user_id", data.user.id);
-    putIntoTable("user_name", data.user.name);
+    putIntoTable("user_name", data.user.username);
     putIntoTable("user_first_name", data.user.first_name);
     putIntoTable("user_last_name", data.user.last_name);
     putIntoTable("user_updated", formatDate(data.user.updated_at));
@@ -71,4 +70,9 @@ function toLink(link) {
     if(link == null)
         return null;
     return "<a href=\"" + link + "\" target=\"_blank\">" + link + "</a>";
+}
+
+function back() {
+    window.opener.focus();
+    window.close();
 }
