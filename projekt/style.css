@@ -15,6 +15,14 @@ header {
     text-align: center;
 }
 
+#logo {
+    height: 40px;
+    position: absolute;
+    left: 0;
+    margin: 5px;
+    cursor: pointer;
+}
+
 input {
     height: 40px;
     margin-top: 5px;
@@ -29,7 +37,7 @@ input:hover {
 }
 
 #query {
-    width: 500px;
+    width: 770px;
     padding: 10px;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
@@ -43,6 +51,7 @@ input:hover {
     border-bottom-left-radius: 0;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    cursor: pointer;
 }
 
 #container {
@@ -64,6 +73,7 @@ input:hover {
     background-color: #ddd;
     border-radius: 10px;
     text-align: center;
+    cursor: pointer;
 }
 
 .tile:hover {
@@ -93,6 +103,7 @@ input:hover {
     border-radius: 10px;
     text-align: center;
     line-height: 50px;
+    cursor: pointer;
 }
 
 #showMore:hover {
@@ -113,6 +124,7 @@ input:hover {
     height: calc(100% - 50px);
     margin-left: auto;
     margin-right: auto;
+    cursor: zoom-in;
 }
 
 #zoomButtons {
@@ -131,6 +143,7 @@ input:hover {
     background-color: #111;
     border-radius: 5px;
     float: left;
+    cursor: pointer;
 }
 
 .zoomButton:hover {
@@ -144,4 +157,38 @@ input:hover {
 
 .zoomButton:hover img {
     filter: brightness(0.8);
+}
+
+@media only screen and (max-width: 1400px) {
+    #logo {
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    input {
+        margin-top: 55px;
+    }
+
+    #container {
+        margin-top: 100px;
+    }
+
+    header {
+        height: 100px;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    #query {
+        width: 340px;
+    }
+
+    #container {
+        width: 430px;
+    }
+
+    #showMore {
+        width: 420px;
+    }
 }

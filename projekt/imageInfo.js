@@ -19,7 +19,7 @@ function showData(data) {
     putIntoTable("height", data.height, " px");
     putIntoTable("description", data.description);
     putIntoTable("alt_description", data.alt_description);
-    putIntoTable("likes", data.likes, liked ? " + You" : undefined);
+    putIntoTable("likes", data.likes, liked ? " + Ty" : undefined);
     putIntoTable("views", data.views);
     putIntoTable("downloads", data.downloads);
 
@@ -62,6 +62,8 @@ function putIntoTable(id, value, unit) {
 }
 
 function formatDate(date) {
+    if(date == null)
+        return null;
     return new Date(date).toLocaleDateString("pl-PL");
 }
 

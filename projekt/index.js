@@ -7,11 +7,18 @@ var perPage
 var page;
 var fun;
 
-start();
-
 function start() {
+    document.getElementById("query").addEventListener("keypress", event => {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            handleFind();
+        }
+    });
+
+    document.getElementById("query").value = "";
     perPage = 10;
     page = 1;
+    closeZoom();
     fun = ()=>{randomImages()};
     //fun();
 }
@@ -24,6 +31,7 @@ function handleFind() {
         return;
     query = q;
     page = 1;
+    closeZoom();
     fun = ()=>{findImages()};
     fun();
 }
@@ -45,7 +53,7 @@ function findImages() {
         images = [...images, ...results];
         showImages();
     })
-    .catch((error) => {console.error(error);});
+    .catch(error => {console.error(error);});
 }
 
 function randomImages() {
@@ -57,7 +65,7 @@ function randomImages() {
         images = [...images, ...results];
         showImages();
     })
-    .catch((error) => {console.error(error);});
+    .catch(error => {console.error(error);});
 }
 
 //-----wyświetlanie zdjęć-----
@@ -102,24 +110,24 @@ function zoomImage(id) {
     document.getElementById("zoomLike").children[0].src = isLiked(data.id) ? "icons/like.png" : "icons/unlike.png";
     document.getElementById("zoomLike").title = isLiked(data.id) ? "Odlub" : "Polub";
     
-    document.getElementById("zoomImg").onclick = (event) => {
+    document.getElementById("zoomImg").onclick = event => {
         event.stopPropagation();
-        window.open(data.links.html, '_blank').focus();
+        window.open(data.urls.raw, '_blank').focus();
     };
     
-    document.getElementById("zoomLike").onclick = (event) => {
+    document.getElementById("zoomLike").onclick = event => {
         event.stopPropagation();
         changeLike(data.id);
         zoomImage(id);
         showImages();
     };
     
-    document.getElementById("zoomInfo").onclick = (event) => {
+    document.getElementById("zoomInfo").onclick = event => {
         event.stopPropagation();
         window.open("imageInfo.html?id=" + data.id + "&liked=" + isLiked(data.id), '_blank').focus();
     };
     
-    document.getElementById("zoomDownload").onclick = (event) => {
+    document.getElementById("zoomDownload").onclick = event => {
         event.stopPropagation();
         window.open(data.links.download + "&force=true", '_blank').focus();
     };
@@ -139,7 +147,7 @@ function isLiked(id) {
 
 function changeLike(id) {
     if(isLiked(id)) {
-        likedImages = likedImages.filter((el) => el != id);
+        likedImages = likedImages.filter(el => el != id);
     } else {
         likedImages.push(id);
     }
