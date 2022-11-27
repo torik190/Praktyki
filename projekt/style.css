@@ -100,7 +100,7 @@ header input:hover, header select:hover {
     overflow: auto;
 }
 
-.imageTile {
+.imageTile, .userTile, .collectionTile {
     width: 420px;
     height: 460px;
     margin-top: 10px;
@@ -113,18 +113,25 @@ header input:hover, header select:hover {
     cursor: pointer;
 }
 
-.imageTile:hover {
+.imageTile:hover, .userTile:hover, .collectionTile:hover {
     background-color: #ccc;
 }
 
-.image {
+.imageTile img, .collectionTile img {
     width: 400px;
     height: 400px;
     margin: 10px;
     border-radius: 10px;
 }
 
-.imageTile:hover .image {
+.userTile img {
+    width: 256px;
+    height: 256px;
+    margin: 82px;
+    border-radius: 200px;
+}
+
+.imageTile:hover img, .userTile:hover img, .collectionTile:hover img {
     filter: brightness(0.8);
 }
 

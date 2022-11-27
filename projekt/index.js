@@ -1,6 +1,6 @@
 const accessKey = "EFJGPfM_Shem4FlBoyJucYIdGNa3cj6tBZb8_sui1cM";
 
-var images = [];
+var tiles = [];
 var container;
 var query;
 var perPage;
@@ -24,7 +24,7 @@ function start() {
     page = 1;
     closeZoom();
     fun = ()=>{randomImages()};
-    //fun();
+    fun();
 }
 
 function setOrderBy(type) {
@@ -48,7 +48,14 @@ function handleFind() {
         return;
     query = q;
     page = 1;
-    fun = ()=>{findImages()};
+    
+    let c = document.getElementById("category").value;
+    if(c == "photo")
+        fun = ()=>{findImages()};
+    else if(c == "user")
+        fun = ()=>{findUsers()};
+    else if(c == "collection")
+        fun = ()=>{findCollections()};
     fun();
 }
 
@@ -65,6 +72,13 @@ function settingsChanged() {
     fun();
 }
 
+function handleCollection(q) {
+    query = q;
+    page = 1;
+    fun = ()=>{collectionImages()};
+    fun();
+}
+
 //-----pobieranie zdjęć-----
 
 function findImages() {
@@ -72,12 +86,7 @@ function findImages() {
     fetch("https://api.unsplash.com/search/photos?client_id=" + accessKey + "&query=" + query + "&per_page=" + perPage + "&page=" + page + "&order_by=" + findOrderBy)
     .then(response => response.json())
     .then(data => data.results)
-    .then(results => {
-        if(page <= 1)
-            images = [];
-        images = [...images, ...results];
-        showImages();
-    })
+    .then(results => {updateImageTiles(results);})
     .catch(error => {console.error(error);});
 }
 
@@ -85,12 +94,7 @@ function randomImages() {
     setOrderBy("none");
     fetch("https://api.unsplash.com/photos/random?client_id=" + accessKey + "&count=" + perPage)
     .then(response => response.json())
-    .then(results => {
-        if(page <= 1)
-            images = [];
-        images = [...images, ...results];
-        showImages();
-    })
+    .then(results => {updateImageTiles(results);})
     .catch(error => {console.error(error);});
 }
 
@@ -98,12 +102,7 @@ function userImages() {
     setOrderBy("user");
     fetch("https://api.unsplash.com/users/" + query + "/photos?client_id=" + accessKey + "&per_page=" + perPage + "&page=" + page + "&order_by=" + userOrderBy)
     .then(response => response.json())
-    .then(results => {
-        if(page <= 1)
-            images = [];
-        images = [...images, ...results];
-        showImages();
-    })
+    .then(results => {updateImageTiles(results);})
     .catch(error => {console.error(error);});
 }
 
@@ -111,45 +110,158 @@ function userLikedImages() {
     setOrderBy("user");
     fetch("https://api.unsplash.com/users/" + query + "/likes?client_id=" + accessKey + "&per_page=" + perPage + "&page=" + page + "&order_by=" + userOrderBy)
     .then(response => response.json())
-    .then(results => {
-        if(page <= 1)
-            images = [];
-        images = [...images, ...results];
-        showImages();
-    })
+    .then(results => {updateImageTiles(results);})
+    .catch(error => {console.error(error);});
+}
+
+function collectionImages() {
+    setOrderBy("none");
+    fetch("https://api.unsplash.com/collections/" + query + "/photos?client_id=" + accessKey + "&per_page=" + perPage + "&page=" + page)
+    .then(response => response.json())
+    .then(results => {updateImageTiles(results);})
+    .catch(error => {console.error(error);});
+}
+
+//-----pobieranie użytkowników-----
+
+function findUsers() {
+    setOrderBy("none");
+    fetch("https://api.unsplash.com/search/users?client_id=" + accessKey + "&query=" + query + "&per_page=" + perPage + "&page=" + page)
+    .then(response => response.json())
+    .then(data => data.results)
+    .then(results => {updateUserTiles(results);})
+    .catch(error => {console.error(error);});
+}
+
+//-----pobieranie kolekcji-----
+
+function findCollections() {
+    setOrderBy("none");
+    fetch("https://api.unsplash.com/search/collections?client_id=" + accessKey + "&query=" + query + "&per_page=" + perPage + "&page=" + page)
+    .then(response => response.json())
+    .then(data => data.results)
+    .then(results => {updateCollectionTiles(results);})
+    .catch(error => {console.error(error);});
+}
+
+function userCollections() {
+    setOrderBy("none");
+    fetch("https://api.unsplash.com/users/" + query + "/collections?client_id=" + accessKey + "&per_page=" + perPage + "&page=" + page)
+    .then(response => response.json())
+    .then(results => {updateCollectionTiles(results);})
     .catch(error => {console.error(error);});
 }
 
 //-----wyświetlanie zdjęć-----
 
-function showImages() {
+function updateImageTiles(results) {
+    if(page <= 1) {
+        tiles = [];
+        window.scrollTo(0, 0);
+    }
+    tiles = [...tiles, ...results];
+    showImageTiles();
+}
+
+function showImageTiles() {
     container = document.getElementById("container");
     container.innerHTML = "";
 
-    for(let id in images) {
-        createImage(id);
+    for(let id in tiles) {
+        createImageTile(id);
     }
 }
 
-function createImage(id) {
-    let data = images[id];
+function createImageTile(id) {
+    let data = tiles[id];
 
     let tile = document.createElement("div");
     container.appendChild(tile);
     tile.className = "imageTile";
-    tile.id = id;
     tile.onclick = () => {zoomImage(data)};
-    tile.title = "by " + data.user.name
+    tile.title = data.user.name;
     if(data.description != null)
         tile.title += "\n\n" + data.description;
 
     let image = document.createElement("img");
     tile.appendChild(image);
-    image.className = "image";
     image.src = data.urls.raw + "&fm=jpg&w=400&h=400&fit=crop";
-    image.alt = "image";
 
     tile.innerHTML += (isLiked(data.id) ? "&#10084; " : "&#9825; ") + (data.likes + isLiked(data.id));
+}
+
+//-----wyświetlanie użytkowników-----
+
+function updateUserTiles(results) {
+    if(page <= 1) {
+        tiles = [];
+        window.scrollTo(0, 0);
+    }
+    tiles = [...tiles, ...results];
+    showUserTiles();
+}
+
+function showUserTiles() {
+    container = document.getElementById("container");
+    container.innerHTML = "";
+
+    for(let id in tiles) {
+        createUserTile(id);
+    }
+}
+
+function createUserTile(id) {
+    let data = tiles[id];
+
+    let tile = document.createElement("div");
+    container.appendChild(tile);
+    tile.className = "userTile";
+    tile.onclick = () => {zoomUser(data)};
+    tile.title = data.username;
+
+    let image = document.createElement("img");
+    tile.appendChild(image);
+    image.src = data.profile_image.large;
+
+    tile.innerHTML += data.username;
+}
+
+//-----wyświetlanie kolekcji-----
+
+function updateCollectionTiles(results) {
+    if(page <= 1) {
+        tiles = [];
+        window.scrollTo(0, 0);
+    }
+    tiles = [...tiles, ...results];
+    showCollectionTiles();
+}
+
+function showCollectionTiles() {
+    container = document.getElementById("container");
+    container.innerHTML = "";
+
+    for(let id in tiles) {
+        createCollectionTile(id);
+    }
+}
+
+function createCollectionTile(id) {
+    let data = tiles[id];
+
+    let tile = document.createElement("div");
+    container.appendChild(tile);
+    tile.className = "collectionTile";
+    tile.onclick = () => {handleCollection(data.id);};
+    tile.title = data.title;
+    if(data.description != null)
+        tile.title += "\n\n" + data.description;
+
+    let image = document.createElement("img");
+    tile.appendChild(image);
+    image.src = data.cover_photo.urls.raw + "&fm=jpg&w=400&h=400&fit=crop";
+
+    tile.innerHTML += data.title + " - " + data.total_photos + " photos";
 }
 
 //-----przybliżanie zdjęcia-----
@@ -168,8 +280,8 @@ function zoomImage(data) {
     document.getElementById("zoomLike").onclick = event => {
         event.stopPropagation();
         changeLike(data.id);
-        zoomImage(id);
-        showImages();
+        zoomImage(data);
+        showImageTiles();
     };
     
     document.getElementById("zoomAuthor").onclick = event => {
@@ -219,6 +331,16 @@ function zoomUser(data) {
         query = data.username;
         page = 1;
         fun = ()=>{userLikedImages()};
+        fun();
+
+        closeUser();
+    };
+    
+    document.getElementById("userCollections").onclick = event => {
+        event.stopPropagation();
+        query = data.username;
+        page = 1;
+        fun = ()=>{userCollections()};
         fun();
 
         closeUser();
