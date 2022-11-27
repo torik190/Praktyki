@@ -8,6 +8,8 @@ body {
     color: #444;
 }
 
+/*-----nagłowek-----*/
+
 header {
     width: 100%;
     height: 50px;
@@ -69,6 +71,8 @@ header input:hover, header select:hover {
     cursor: pointer;
 }
 
+/*-----ustawienia-----*/
+
 #settings {
     width: 860px;
     height: 30px;
@@ -86,6 +90,8 @@ header input:hover, header select:hover {
     line-height: 30px;
 }
 
+/*-----strona główna-----*/
+
 #container {
     width: 860px;
     margin-bottom: 10px;
@@ -94,7 +100,7 @@ header input:hover, header select:hover {
     overflow: auto;
 }
 
-.tile {
+.imageTile {
     width: 420px;
     height: 460px;
     margin-top: 10px;
@@ -107,7 +113,7 @@ header input:hover, header select:hover {
     cursor: pointer;
 }
 
-.tile:hover {
+.imageTile:hover {
     background-color: #ccc;
 }
 
@@ -118,7 +124,7 @@ header input:hover, header select:hover {
     border-radius: 10px;
 }
 
-.tile:hover .image {
+.imageTile:hover .image {
     filter: brightness(0.8);
 }
 
@@ -142,7 +148,9 @@ header input:hover, header select:hover {
     border-color: #eee;
 }
 
-#zoom {
+/*-----przybliżenie i użytkownicy-----*/
+
+#zoom, #user {
     width: 100%;
     position: fixed;
     top: 50px;
@@ -158,15 +166,38 @@ header input:hover, header select:hover {
     cursor: zoom-in;
 }
 
-#zoomButtons {
-    width: 150px;
+#userDiv {
+    display: block;
+    width: 850px;
+    height: calc(100% - 80px);
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    background-color: #ddd;
+    border-radius: 10px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+#userImg {
+    width: 128px;
+    height: 128px;
+    border-radius: 64px;
+}
+
+#zoomButtons, #userButtons {
+    width: 200px;
     height: 50px;
     margin-top: auto;
     margin-left: auto;
     margin-right: auto;
 }
 
-.zoomButton {
+.bottomButton {
     width: 30px;
     height: 30px;
     margin: 5px;
@@ -177,18 +208,20 @@ header input:hover, header select:hover {
     cursor: pointer;
 }
 
-.zoomButton:hover {
+.bottomButton:hover {
     background-color: #000;
 }
 
-.zoomButton img {
+.bottomButton img {
     width: 30px;
     height: 30px;
 }
 
-.zoomButton:hover img {
+.bottomButton:hover img {
     filter: brightness(0.8);
 }
+
+/*-----responsywność-----*/
 
 @media only screen and (max-width: 1400px) {
     #logo {
@@ -220,6 +253,10 @@ header input:hover, header select:hover {
     }
 
     #showMore {
+        width: 420px;
+    }
+
+    #userDiv {
         width: 420px;
     }
 }

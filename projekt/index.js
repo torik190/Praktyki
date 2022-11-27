@@ -18,6 +18,7 @@ function start() {
 
     document.getElementById("query").value = "";
     perPage = 10;
+    orderBy = "relevant";
     page = 1;
     closeZoom();
     fun = ()=>{randomImages()};
@@ -31,9 +32,6 @@ function handleFind() {
     if(q == "")
         return;
     query = q;
-    perPage = document.getElementById("per_page").value;
-    orderBy = document.getElementById("order_by").value;
-
     page = 1;
     closeZoom();
     fun = ()=>{findImages()};
@@ -97,7 +95,7 @@ function createImage(id) {
 
     let tile = document.createElement("div");
     container.appendChild(tile);
-    tile.className = "tile";
+    tile.className = "imageTile";
     tile.id = id;
     tile.onclick = () => {zoomImage(id)};
     tile.title = "by " + data.user.name
@@ -135,19 +133,46 @@ function zoomImage(id) {
         showImages();
     };
     
-    document.getElementById("zoomInfo").onclick = event => {
-        event.stopPropagation();
-        window.open("imageInfo.html?id=" + data.id + "&liked=" + isLiked(data.id), '_blank').focus();
+    document.getElementById("zoomAuthor").onclick = event => {
+        //event.stopPropagation();
+        zoomUser(data.user);
     };
     
     document.getElementById("zoomDownload").onclick = event => {
         event.stopPropagation();
         window.open(data.links.download + "&force=true", '_blank').focus();
     };
+    
+    document.getElementById("zoomInfo").onclick = event => {
+        event.stopPropagation();
+        window.open("imageInfo.html?id=" + data.id + "&liked=" + isLiked(data.id), '_blank').focus();
+    };
 }
 
 function closeZoom() {
     document.getElementById("zoom").style = "display: none";
+}
+
+//-----strona użytkownika-----
+
+function zoomUser(data) {
+    document.getElementById("user").style = "display: block";
+    document.getElementById("userImg").src = data.profile_image.large;
+    document.getElementById("userName").innerHTML = data.username;
+    document.getElementById("userBio").innerHTML = data.bio;
+    
+    document.getElementById("userDiv").onclick = event => {
+        event.stopPropagation();
+    };
+    
+    document.getElementById("userInfo").onclick = event => {
+        event.stopPropagation();
+        window.open("userInfo.html?id=" + data.username, '_blank').focus();
+    };
+}
+
+function closeUser() {
+    document.getElementById("user").style = "display: none";
 }
 
 //-----like/unlike-----

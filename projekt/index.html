@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>FotoGaleria24.pl</title>
+    <title>FotoGaleria24.pl - Tysiące zdjęć w wysokiej jakości</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="icons/favicon.png">
@@ -8,6 +8,7 @@
     <script src="index.js" language="javascript"></script>
 </head>
 <body>
+    <!--ustawienia wyświetlania-->
     <div id="settings">
         <label style="display: none;">
             Sortuj według: 
@@ -40,17 +41,37 @@
             </select>
             <input type="button" value="Szukaj" id="search" onclick="handleFind()">
         </div>
-        <!--kategoria, ilość, sortowanie-->
     </header>
 
-    <!--przybliżenie-->
+    <!--przybliżenie zdjęcia-->
     <div id="zoom" onclick="closeZoom()" style="display: none">
-        <!--autor, unsplash-->
-        <img src="icons/logo.png" id="zoomImg">
+        <img src="" id="zoomImg">
         <div id="zoomButtons">
-            <div class="zoomButton" id="zoomLike" title="Polub"><img src="icons/unlike.png" alt="like"></div>
-            <div class="zoomButton" id="zoomInfo" title="Pokaż statystyki"><img src="icons/info.png" alt="info"></div>
-            <div class="zoomButton" id="zoomDownload" title="Pobierz"><img src="icons/download.png" alt="download"></div>
+            <div class="bottomButton" id="zoomLike" title="Polub"><img src="icons/unlike.png" alt="like"></div>
+            <div class="bottomButton" id="zoomAuthor" title="Pokaż autora"><img src="icons/author.png" alt="author"></div>
+            <div class="bottomButton" id="zoomDownload" title="Pobierz"><img src="icons/download.png" alt="download"></div>
+            <div class="bottomButton" id="zoomInfo" title="Pokaż statystyki"><img src="icons/info.png" alt="info"></div>
+        </div>
+    </div>
+
+    <!--informacje o użytkowniku-->
+    <div id="user" onclick="closeUser()" style="display: none">
+        <div id="userDiv">
+            <table>
+                <tr>
+                    <th width="150"><img src="" id="userImg"></th>
+                    <th id="userName"></th>
+                </tr>
+                <tr>
+                    <td colspan="2" id="userBio"></td>
+                </tr>
+            </table>
+        </div>
+        <div id="userButtons">
+            <div class="bottomButton" id="userPhotos" title="Wyświetl zdjęcia użytkownika"><img src="icons/photos.png" alt="photos"></div>
+            <div class="bottomButton" id="userLikedPhotos" title="Wyświetl zdjęcia polubione przez użytkownika"><img src="icons/likedPhotos.png" alt="likedPhotos"></div>
+            <div class="bottomButton" id="userCollections" title="Wyświetl kolekcje użytkownika"><img src="icons/collections.png" alt="collections"></div>
+            <div class="bottomButton" id="userInfo" title="Pokaż statystyki"><img src="icons/info.png" alt="info"></div>
         </div>
     </div>
     <script language="javascript">start();</script>
