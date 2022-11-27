@@ -1,9 +1,10 @@
-const accessKey = "EFJGPfM_Shem4FlBoyJucYIdGNa3cj6tBZb8_sui1cM"
+const accessKey = "EFJGPfM_Shem4FlBoyJucYIdGNa3cj6tBZb8_sui1cM";
 
 var images = [];
 var container;
 var query;
-var perPage
+var perPage;
+var orderBy;
 var page;
 var fun;
 
@@ -30,6 +31,9 @@ function handleFind() {
     if(q == "")
         return;
     query = q;
+    perPage = document.getElementById("per_page").value;
+    orderBy = document.getElementById("order_by").value;
+
     page = 1;
     closeZoom();
     fun = ()=>{findImages()};
@@ -41,10 +45,18 @@ function showMore() {
     fun();
 }
 
+function settingsChanged() {
+    perPage = document.getElementById("per_page").value;
+    orderBy = document.getElementById("order_by").value;
+    page = 1;
+    fun();
+}
+
 //-----pobieranie zdjęć-----
 
 function findImages() {
-    fetch("https://api.unsplash.com/search/photos?client_id=" + accessKey + "&query=" + query + "&per_page=" + perPage + "&page=" + page)
+    document.getElementById("order_by").parentElement.style = "display: block";
+    fetch("https://api.unsplash.com/search/photos?client_id=" + accessKey + "&query=" + query + "&per_page=" + perPage + "&page=" + page + "&order_by=" + orderBy)
     .then(response => response.json())
     .then(data => data.results)
     .then(results => {
@@ -57,6 +69,7 @@ function findImages() {
 }
 
 function randomImages() {
+    document.getElementById("order_by").parentElement.style = "display: none";
     fetch("https://api.unsplash.com/photos/random?client_id=" + accessKey + "&count=" + perPage)
     .then(response => response.json())
     .then(results => {

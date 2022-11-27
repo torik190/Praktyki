@@ -2,21 +2,50 @@
 <head>
     <title>FotoGaleria24.pl</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="icons/favicon.png">
     <link rel="stylesheet" href="style.css">
     <script src="index.js" language="javascript"></script>
 </head>
 <body>
-    <!--autor, unsplash-->
+    <div id="settings">
+        <label style="display: none;">
+            Sortuj według: 
+            <select id="order_by" onchange="settingsChanged()">
+                <option value="relevant">Trafność</option>
+                <option value="latest">Data opublikowania</option>
+            </select>
+        </label>
+        <label>
+            Wyświetl na stronie: 
+            <select id="per_page" onchange="settingsChanged()">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+            </select>
+        </label>
+    </div>
     <div id="container"></div>
     <div id="showMore" onclick="showMore()">Pokaż więcej</div>
 
+    <!--nagłówek-->
     <header>
         <img src="icons/logo.png" alt="logo" onclick="start()" id="logo">
-        <input type="text" id="query"><input type="button" value="Szukaj" id="search" onclick="handleFind()">
+        <div class="center">
+            <input type="text" id="query">
+            <select id="type">
+                <option value="photo">Zdjęcia</option>
+                <option value="user">Użytkownicy</option>
+                <option value="coll">Kolekcje</option>
+            </select>
+            <input type="button" value="Szukaj" id="search" onclick="handleFind()">
+        </div>
         <!--kategoria, ilość, sortowanie-->
     </header>
+
+    <!--przybliżenie-->
     <div id="zoom" onclick="closeZoom()" style="display: none">
+        <!--autor, unsplash-->
         <img src="icons/logo.png" id="zoomImg">
         <div id="zoomButtons">
             <div class="zoomButton" id="zoomLike" title="Polub"><img src="icons/unlike.png" alt="like"></div>
