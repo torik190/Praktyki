@@ -179,7 +179,7 @@ function createImageTile(id) {
     container.appendChild(tile);
     tile.className = "imageTile";
     tile.onclick = () => {zoomImage(data)};
-    tile.title = data.user.name;
+    tile.title = data.user.username;
     if(data.description != null)
         tile.title += "\n\n" + data.description;
 
@@ -217,7 +217,7 @@ function createUserTile(id) {
     container.appendChild(tile);
     tile.className = "userTile";
     tile.onclick = () => {zoomUser(data)};
-    tile.title = data.username;
+    tile.title = data.username + "\n\n" + data.name;
 
     let image = document.createElement("img");
     tile.appendChild(image);
@@ -253,7 +253,7 @@ function createCollectionTile(id) {
     container.appendChild(tile);
     tile.className = "collectionTile";
     tile.onclick = () => {handleCollection(data.id);};
-    tile.title = data.title;
+    tile.title = data.user.username;
     if(data.description != null)
         tile.title += "\n\n" + data.description;
 
